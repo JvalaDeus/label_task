@@ -52,37 +52,52 @@
       images: ['images/dolphin.png', 'images/turtle.png'],
       audio: 'audio/find_dolphin.wav',
       correct_image: 'images/dolphin.png'
+    },
+    {
+      images: ['images/elephant.png', 'images/zebra.png'],
+      audio: 'audio/find_zebra.wav',
+      correct_image: 'images/zebra.png'
+    },
+    {
+      images: ['images/wolf.png', 'images/tiger.png'],
+      audio: 'audio/find_tiger.wav',
+      correct_image: 'images/tiger.png'
     }
   ];
 
-  var current_trial = easy_test_stimuli[0];
+  var test_block = easy_test_stimuli;
+  for (let i = 0; i < test_block.length, i++) {
+    var current_trial = test_block[i];
 
-  // create a trial
-  var test = {
-    type: jsPsychAudioButtonResponse,
-    stimulus: current_trial['audio'],
-    prompt: "Click on the animal that is named.",
-    button_html:
-      function (choice, choice_index) {
-        return `<button class="jspsych-btn"><img src="${choice}" style="width:200px;height:200px;"></button>`;
+    // create a trial
+    var test = {
+      type: jsPsychAudioButtonResponse,
+      stimulus: current_trial['audio'],
+      prompt: "Click on the animal that is named.",
+      button_html:
+        function (choice, choice_index) {
+          return `<button class="jspsych-btn"><img src="${choice}" style="width:200px;height:200px;"></button>`;
+        },
+      choices: current_trial['images'],
+      data: {
+        choice_images: current_trial['images'],
+        correct_image: current_trial['correct_image']
       },
-    choices: current_trial['images'],
-    data: {
-      choice_images: current_trial['images'],
-      correct_image: current_trial['correct_image']
-    },
-    on_finish: function (data) {
-      data.choice = data.choice_images[data.response]
-      if (data.choice == data.correct_image) {
-        data.correct = true;
-      } else {
-        data.correct = false;
+      on_finish: function (data) {
+        console.log(data.response);
+        console.log(data.choice_images);
+        data.choice = data.choice_images[data.response]
+        if (data.choice == data.correct_image) {
+          data.correct = true;
+        } else {
+          data.correct = false;
+        }
+        console.log(data.correct);
       }
-    }
-  };
+    };
 
-  timeline.push(test);
-
+    timeline.push(test);
+  }
   // start the experiment
   jsPsych.run(timeline);
 
