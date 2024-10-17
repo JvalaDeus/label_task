@@ -2,39 +2,78 @@
 <html>
 
 <head>
-  <title>label task</title>
-  <script src="https://unpkg.com/jspsych@8.0.0"></script>
-  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
-  <link href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+ <title>label task</title>
+ <script src="https://unpkg.com/jspsych@8.0.0"></script>
+ <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+ <script src="https://unpkg.com/@jspsych/plugin-audio-button-response@2.0.0"></script>
+ <link href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body></body>
 <script>
 
-  // initialize jsPsych
-  var jsPsych = initJsPsych(
-    {
-      on_finish: function () {
-        jsPsych.data.displayData();
-      }
-    }
-  );
+ // initialize jsPsych
+ var jsPsych = initJsPsych(
+   {
+     on_finish: function () {
+       jsPsych.data.displayData();
+     }
+   }
+ );
 
-  // create timeline
-  var timeline = [];
+ // create timeline
+ var timeline = [];
 
-  // define welcome message trial
-  var welcome = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: "Welcome to the experiment. Press any key to begin."
-  };
+ // define welcome message trial
+ var welcome = {
+   type: jsPsychHtmlKeyboardResponse,
+   stimulus: "Welcome to the experiment. Press any key to begin."
+ };
 
-  // add the welcome trial to the timeline variable
-  timeline.push(welcome);
+ // add the welcome trial to the timeline variable
+ timeline.push(welcome);
 
-  // start the experiment
-  jsPsych.run(timeline);
+ // define the instructions trial
+ var instructions = {
+   type: jsPsychHtmlKeyboardResponse,
+   stimulus: `
+  <p>On each trial, you will see pictures of animals and the name of one of the animals.</p>
+  <p>Click on the animal that is named, as fast as you can.</p>
+  <p>Press any key to begin.</p>
+`
+ };
+
+ //add the instructions trial to the timeline
+ timeline.push(instructions);
+
+ //add the test stimuli
+ var easy_test_stimuli = [
+   {
+     images: ['images/dolphin.png', 'images/turtle.png'],
+     audio: 'audio/find_dolphin.wav',
+     correct_image: 'images/dolphin.png'
+   }
+ ];
+
+ var current_trial = easy_test_stimuli[0];
+
+ // create a trial
+ var test = {
+   type: jsPsychAudioButtonResponse,
+   stimulus: current_trial['audio'],
+   prompt: "Click on the animal that is named.",
+   button_html:
+     function (choice, choice_index) {
+       return `<button class="jspsych-btn"><img src="${choice}" style="width:200px;height:200px;"></button>`;
+     },
+   choices: current_trial['images']
+ };
+
+ timeline.push(test);
+
+ // start the experiment
+ jsPsych.run(timeline);
 
 </script>
 
-</html>
+</html> 
