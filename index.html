@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>label task</title>
+  <script src="https://unpkg.com/jspsych@8.0.0"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+  <link href="https://unpkg.com/jspsych@8.0.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body></body>
+<script>
+
+  // initialize jsPsych
+  var jsPsych = initJsPsych(
+    {
+      on_finish: function () {
+        jsPsych.data.displayData();
+      }
+    }
+  );
+
+  // create timeline
+  var timeline = [];
+
+  // define welcome message trial
+  var welcome = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: "Welcome to the experiment. Press any key to begin."
+  };
+
+  // add the welcome trial to the timeline variable
+  timeline.push(welcome);
+
+  // start the experiment
+  jsPsych.run(timeline);
+
+</script>
+
+</html>
