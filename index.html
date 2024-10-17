@@ -64,8 +64,36 @@
       correct_image: 'images/tiger.png'
     }
   ];
+  var hard_test_stimuli = [
+    {
+      images: ['images/aadvark.png', 'images/echnida.png'],
+      audio: 'audio/find_aadvark.wav',
+      correct_image: 'images/aadvark.png'
+    },
+    {
+      images: ['images/armadillo.png', 'images/pangolin.png'],
+      audio: 'audio/find_pangolin.wav',
+      correct_image: 'images/pangolin.png'
+    },
+    {
+      images: ['images/tarsier.png', 'images/tapir.png'],
+      audio: 'audio/find_tarsier.wav',
+      correct_image: 'image/tarsier.png'
+    }
+  ];
+  var conditions = ["easy", "hard"];
+  var condition_assignment = jsPsych.randomization.sampleWithoutReplacement(conditions, 1)[0]
+  console.log(condition_assignment);
 
-  var test_block = easy_test_stimuli;
+  jsPsych.data.addProperties({
+    condition: condition_assignment
+  });
+
+  if (condition_assignment == "easy") {
+    var test_block = easy_test_stimuli;
+  } else {
+    var test_block = hard_test_stimuli;
+  }
   for (let i = 0; i < test_block.length, i++) {
     var current_trial = test_block[i];
 
