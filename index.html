@@ -40,7 +40,7 @@
   <p>On each trial, you will see pictures of animals and the name of one of the animals.</p>
   <p>Click on the animal that is named, as fast as you can.</p>
   <p>Press any key to begin.</p>
-`
+  `
   };
 
   //add the instructions trial to the timeline
@@ -81,6 +81,7 @@
       correct_image: 'image/tarsier.png'
     }
   ];
+  
   var conditions = ["easy", "hard"];
   var condition_assignment = jsPsych.randomization.sampleWithoutReplacement(conditions, 1)[0]
   console.log(condition_assignment);
@@ -94,7 +95,8 @@
   } else {
     var test_block = hard_test_stimuli;
   }
-  for (let i = 0; i < test_block.length, i++) {
+
+  for (let i = 0; i < test_block.length; i++) {
     var current_trial = test_block[i];
 
     // create a trial
